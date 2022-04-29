@@ -1,3 +1,3 @@
-pub fn print_cookie(){
+pub fn _print_cookie(){
     println!("cookie");
 }

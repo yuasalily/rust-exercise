@@ -1,4 +1,4 @@
-// http://localhost:8080/indx.html
+// http://localhost:8080/index.html
 
 mod server;
 mod client;

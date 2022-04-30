@@ -5,6 +5,6 @@ mod client;
 
 fn main() {
     let tcp_server =  server::TcpServer::new();
-    tcp_server.serve(false);
+    tcp_server.serve();
     // client::tcp_client::request("127.0.0.1:80".to_string());
 }

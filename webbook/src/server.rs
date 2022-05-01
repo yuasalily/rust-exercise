@@ -3,22 +3,19 @@ use std::thread;
 
 pub mod worker;
 use worker::Worker;
-
+use crate::settings;
 
 pub struct TcpServer{
-    addr: String,
 }
 
 impl TcpServer{
     pub fn new() -> Self {
-        return TcpServer{
-            addr: "172.17.0.3:80".to_string(),
-        };
+        return TcpServer{};
     }
     pub fn serve(&self){
         println!("サーバを起動します");
         
-        let listener = TcpListener::bind(&self.addr).unwrap();
+        let listener = TcpListener::bind(settings::ADDRESS).unwrap();
         loop {
             let (stream, address) = listener.accept().unwrap();
             thread::spawn(move || {

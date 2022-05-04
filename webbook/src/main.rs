@@ -1,15 +1,17 @@
 // http://localhost:8080/index
-// http://localhost:8080/now
+// http://localhost:8080/now.html
 // http://localhost:8080/show_request
 // http://localhost:8080/form
+// http://localhost:8080/not_found
+// http://localhost:8080/user/1123/profile
+// http://localhost:8080/login
+// http://localhost:8080/welcome
 
 mod server;
 mod settings;
-// mod client;
-// client::tcp_client::request("127.0.0.1:80".to_string());
 
 fn main() {
-    let tcp_server =  server::TcpServer::new();
+    let tcp_server = server::TcpServer::new();
     tcp_server.serve();
     
 }

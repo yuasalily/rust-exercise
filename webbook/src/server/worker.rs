@@ -1,17 +1,13 @@
 use std::net::{TcpStream, SocketAddr};
-use std::collections::HashMap;
 use std::io::{Read, Write};
-use std::fs::File;
-use chrono::Utc;
-use std::path::{PathBuf, Path};
+use std::path::PathBuf;
 
-mod view;
-mod request;
-mod response;
-mod urls;
+mod renderer;
+pub mod cookie;
+pub mod request;
+pub mod response;
 
 pub struct Worker{
-
 }
 
 impl Worker{
@@ -28,12 +24,16 @@ impl Worker{
         let request = request[..r].to_vec();
         
         // レクエスト処理
-        let parsed_request = request::parse_request(request);
-        let path = Path::new(parsed_request.get("path").unwrap()).file_stem().unwrap();
-        let view_function = urls::mapping_url_to_view(path);
+        let mut http_request = request::parse_request(request);
+        let mut path = PathBuf::from(http_request.get_path());
+        path.set_extension("");
+        let path = path.as_os_str();
+        let (view_function, pattern_map) = renderer::mapping_url_to_view(path);
+        http_request.update_params(pattern_map);
 
-        let (response_line, response_body, extension) = view_function(&parsed_request);
-        let response = response::make_response(response_line, response_body, &extension);
+        let mut http_response = view_function(&http_request);
+        renderer::render(&mut http_response);
+        let response = response::make_response(&http_request, &http_response);
 
         //リクエスト返信
         let _ = stream.write(&response);

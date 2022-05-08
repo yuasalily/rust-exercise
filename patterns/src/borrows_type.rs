@@ -26,8 +26,8 @@ pub fn borrows_type_main(){
 }
 
 // 関数の引数は借用型を使った方が受け入れが広くなる
-// 例えば&String -> &strは暗黙的に型変換が行われる
-// 
+// 例えば&String -> &strは暗黙的に型変換が行われるので&strに&Stringは渡せる
+// &str -> &Stringは型変換が行われないので&Stringに&strは渡せない。
 fn three_vowels(word: &str) -> bool{
     let mut vowel_count = 0;
     for c in word.chars(){
